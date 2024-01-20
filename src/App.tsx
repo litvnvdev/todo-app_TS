@@ -15,9 +15,14 @@ const Title = styled.h1`
 `;
 
 const SubTitle = styled.h3`
+  font-weight: 400;
   text-align: center;
-  font-size: 1.8em;
+  font-size: 1.6em;
 `;
+const Text = styled.p`
+  text-align: center;
+  font-size: 1.2em;
+`
 function App() {
 
   let arrayOfTasks:string[] = []
@@ -50,8 +55,9 @@ function App() {
 
   return (
     <>
-      <Title>ПРИВЕТ!</Title>
-      <SubTitle> Это твой список дел</SubTitle>
+      <Title>Привет!</Title>
+      <SubTitle>Сегодня: дата</SubTitle>
+      <Text>Ниже будет расположен Ваш список дел. Заполните поле и нажмите кнопку "Добавить"</Text>
       <Wrapper>
         <UserInput
           text={inputTask}

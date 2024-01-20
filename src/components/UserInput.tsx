@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { IoIosClose } from "react-icons/io";
 
 type Props = {
   text: string;
@@ -8,8 +9,16 @@ type Props = {
   tasks: string[];
 };
 
-interface StyledProps {
+interface ContainerProps {
   background?: string;
+  width?: string;
+  flex?: string;
+  align?: string;
+  justifyContent?: string;
+  margin?: string;
+  boxShadow?: string;
+}
+interface ButtonProps {
   width?: string;
 }
 
@@ -28,38 +37,57 @@ const SubTitle = styled.h3`
   text-align: center;
   font-size: 1.3em;
 `;
-const Container = styled.div<StyledProps>`
+const Container = styled.div<ContainerProps>`
+  margin: ${(props) => props.margin};
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 1px 1px 2px #000;
   padding: 0.5rem;
   border-radius: 8px;
-  border: 2px solid red;
   margin-top: 0.5rem;
   height: fit-content;
-  align-items: flex-start;
+  align-items: ${(props) => props.align};
   display: flex;
   width: ${(props) => props.width};
-  justify-content: flex-start;
+  justify-content: ${(props) => props.justifyContent};
   gap: 1rem;
-  flex-direction: column;
+  flex-direction: ${(props) => props.flex};
   background: ${(props) => props.background};
+  box-shadow: ${(props) => props.boxShadow};
 `;
 const Input = styled.input`
   margin-left: 1rem;
-  font-size: 1.2em;
-  background: papayawhip;
+  border: none;
+  outline: none;
+  color: #656b72;
+  font-size: 1.1em;
+  background: #e0e1e3;
   padding: 0.5rem;
   width: 75%;
   height: 75px;
   border-radius: 5px;
+  &:focus {
+    outline: none;
+    border: 2px solid #59abcb;
+  }
 `;
 
-const Button = styled.button`
+const Button = styled.button<ButtonProps>`
+  transition: 0.2s;
   margin-left: 1rem;
+  border: none;
+  color: #fff;
   font-size: 1em;
   border-radius: 7px;
   height: 45px;
-  width: 40%;
-  background-color: peachpuff;
+  width: ${(props) => props.width};
+  background-color: #59abcb;
   cursor: pointer;
+  border: 2px solid #e0e1e3;
+
+  &:hover {
+    background-color: #656b72;
+  }
 `;
 
 const TaskText = styled.p`
@@ -79,24 +107,44 @@ const UserInput = ({
 }: Props) => {
   return (
     <Wrapper>
-      <Container background="papayawhip" width="450px">
+      <Container background="#f0f0f1" width="450px" flex="column" boxShadow="-5px 3px 10px 10px rgba(0, 0, 0, 0.2)">
         <Input
-          placeholder="Напиши, что хочешь выполнить - сюда"
+          placeholder="Напиши сюда какую-нибудь задачу"
           type="text"
           value={text}
           onChange={handleInput}
         />
-        <Button onClick={handleButton}>Добавить</Button>
-        <Button onClick={handleTaskList}>Очистить</Button>
+        <Button onClick={handleButton} width="150px">
+          Добавить
+        </Button>
+        <Button onClick={handleTaskList} width="250px">
+          Очистить весь список
+        </Button>
       </Container>
 
-      <Container background="aliceblue" width="60%">
+      <Container background="#f0f0f1" width="60%" flex="column" boxShadow="7px 10px 10px 10px rgba(0, 0, 0, 0.2)">
         {tasks.length > 0 && <SubTitle>Вот твой список дел 😉</SubTitle>}
         {tasks.length <= 0 && <SubTitle>Пока список дел пуст 🙁</SubTitle>}
         {tasks.map((el, i) => (
-          <TaskText key={el + i}>
-            {`№${i + 1}. ${el}`} <CheckBox />
-          </TaskText>
+          <Container
+            flex="row"
+            background="#59abcb"
+            width="50%"
+            align="center"
+            justifyContent="space-between"
+            margin="0 auto"
+          >
+            <TaskText key={el + i}>{`№${i + 1}. ${el}`}</TaskText>
+            <Container
+              flex="row"
+              width="15%"
+              align="center"
+              justifyContent="space-between"
+            >
+              <CheckBox />
+              <IoIosClose className="close-item" size={35} />
+            </Container>
+          </Container>
         ))}
       </Container>
     </Wrapper>
