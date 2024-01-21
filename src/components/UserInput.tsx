@@ -16,7 +16,7 @@ interface ContainerProps {
   align?: string;
   justifyContent?: string;
   margin?: string;
-  boxShadow?: string;
+  shadow?: string;
 }
 interface ButtonProps {
   width?: string;
@@ -53,7 +53,7 @@ const Container = styled.div<ContainerProps>`
   gap: 1rem;
   flex-direction: ${(props) => props.flex};
   background: ${(props) => props.background};
-  box-shadow: ${(props) => props.boxShadow};
+  box-shadow: ${(props) => props.shadow};
 `;
 const Input = styled.input`
   margin-left: 1rem;
@@ -122,10 +122,10 @@ const UserInput = ({
         </Button>
       </Container>
 
-      <Container background="#f0f0f1" width="60%" flex="column" boxShadow="7px 10px 10px 10px rgba(0, 0, 0, 0.2)">
-        {tasks.length > 0 && <SubTitle>Вот твой список дел 😉</SubTitle>}
-        {tasks.length <= 0 && <SubTitle>Пока список дел пуст 🙁</SubTitle>}
-        {tasks.map((el, i) => (
+      <Container background="#f0f0f1" width="60%" flex="column" shadow="7px 10px 10px 10px rgba(0, 0, 0, 0.2)">
+        {tasks?.length > 0 && <SubTitle>Вот твой список дел 😉</SubTitle>}
+        {tasks?.length <= 0 && <SubTitle>Пока список дел пуст 🙁</SubTitle>}
+        {tasks?.map((el, i) => (
           <Container
             flex="row"
             background="#59abcb"

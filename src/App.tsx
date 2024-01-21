@@ -26,6 +26,7 @@ const Text = styled.p`
 function App() {
 
   let arrayOfTasks:string[] = []
+  localStorage.setItem('tasks', JSON.stringify(arrayOfTasks)); //-- add to local storage empty arra --//
 
   const storageTask = JSON.parse(localStorage.getItem('tasks') as any)
 
