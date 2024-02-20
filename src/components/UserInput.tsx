@@ -5,7 +5,7 @@ type Props = {
   text: string;
   handleInput: any;
   handleButton: any;
-  handleTaskList: any;
+  handleClearTaskList: any;
   tasks: string[];
 };
 
@@ -14,7 +14,7 @@ interface ContainerProps {
   width?: string;
   flex?: string;
   align?: string;
-  justifyContent?: string;
+  justify?: string;
   margin?: string;
   shadow?: string;
 }
@@ -49,7 +49,7 @@ const Container = styled.div<ContainerProps>`
   align-items: ${(props) => props.align};
   display: flex;
   width: ${(props) => props.width};
-  justify-content: ${(props) => props.justifyContent};
+  justify-content: ${(props) => props.justify};
   gap: 1rem;
   flex-direction: ${(props) => props.flex};
   background: ${(props) => props.background};
@@ -103,11 +103,16 @@ const UserInput = ({
   tasks,
   handleInput,
   handleButton,
-  handleTaskList,
+  handleClearTaskList,
 }: Props) => {
   return (
     <Wrapper>
-      <Container background="#f0f0f1" width="450px" flex="column" boxShadow="-5px 3px 10px 10px rgba(0, 0, 0, 0.2)">
+      <Container
+        background="#f0f0f1"
+        width="450px"
+        flex="column"
+        shadow="-5px 3px 10px 10px rgba(0, 0, 0, 0.2)"
+      >
         <Input
           placeholder="Напиши сюда какую-нибудь задачу"
           type="text"
@@ -117,21 +122,28 @@ const UserInput = ({
         <Button onClick={handleButton} width="150px">
           Добавить
         </Button>
-        <Button onClick={handleTaskList} width="250px">
+        <Button onClick={handleClearTaskList} width="250px">
           Очистить весь список
         </Button>
       </Container>
 
-      <Container background="#f0f0f1" width="60%" flex="column" shadow="7px 10px 10px 10px rgba(0, 0, 0, 0.2)">
+      <Container
+        background="#f0f0f1"
+        width="60%"
+        flex="column"
+        shadow="7px 10px 10px 10px rgba(0, 0, 0, 0.2)"
+      >
         {tasks?.length > 0 && <SubTitle>Вот твой список дел 😉</SubTitle>}
         {tasks?.length <= 0 && <SubTitle>Пока список дел пуст 🙁</SubTitle>}
+
         {tasks?.map((el, i) => (
           <Container
+            key={el + i}
             flex="row"
             background="#59abcb"
             width="50%"
             align="center"
-            justifyContent="space-between"
+            justify="space-between"
             margin="0 auto"
           >
             <TaskText key={el + i}>{`№${i + 1}. ${el}`}</TaskText>
@@ -139,7 +151,7 @@ const UserInput = ({
               flex="row"
               width="15%"
               align="center"
-              justifyContent="space-between"
+              justify="space-between"
             >
               <CheckBox />
               <IoIosClose className="close-item" size={35} />
