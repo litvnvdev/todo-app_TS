@@ -17,6 +17,9 @@ interface ContainerProps {
   justify?: string;
   margin?: string;
   shadow?: string;
+  md_width?: string;
+  md_justify?:string;
+  sm_width?:string;
 }
 interface ButtonProps {
   width?: string;
@@ -31,6 +34,20 @@ const Wrapper = styled.div`
   width: 90%;
   gap: 1rem;
   color: #000;
+
+  @media (min-width:480px) and (max-width:992px) {
+    font-size: 0.8em;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 80%;
+  }
+  @media (min-width:320px) and (max-width:480px) {
+    font-size: 0.8em;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 `;
 const SubTitle = styled.h3`
   margin: 0 auto;
@@ -54,6 +71,16 @@ const Container = styled.div<ContainerProps>`
   flex-direction: ${(props) => props.flex};
   background: ${(props) => props.background};
   box-shadow: ${(props) => props.shadow};
+
+  @media (min-width:480px) and (max-width:992px) {
+      font-size: 1em;
+      width: ${(props)=>props.md_width};
+      justify-content: ${(props)=>props.md_justify};
+  }
+  @media (min-width: 320px) and (max-width:480px){
+    font-size: 0.9em;
+    width:${(props)=>props.sm_width};
+  }
 `;
 const Input = styled.input`
   margin-left: 1rem;
@@ -70,6 +97,9 @@ const Input = styled.input`
     outline: none;
     border: 2px solid #59abcb;
   }
+  @media (min-width:480px) and (max-width:992px) {
+    width:80%;
+  }
 `;
 
 const Button = styled.button<ButtonProps>`
@@ -80,7 +110,7 @@ const Button = styled.button<ButtonProps>`
   font-size: 1em;
   border-radius: 7px;
   height: 45px;
-  width: ${(props) => props.width};
+  max-width: ${(props) => props.width};
   background-color: #59abcb;
   cursor: pointer;
   border: 2px solid #e0e1e3;
@@ -93,6 +123,10 @@ const Button = styled.button<ButtonProps>`
 const TaskText = styled.p`
   line-height: 1;
   text-decoration: underline;
+
+  @media (min-width: 320px) and (max-width:480px){
+    font-size: 1.2em;
+  }
 `;
 const CheckBox = styled.input.attrs({ type: "checkbox" })`
   margin-left: 1rem;
@@ -109,12 +143,13 @@ const UserInput = ({
     <Wrapper>
       <Container
         background="#f0f0f1"
-        width="450px"
+        width="400px"
+        sm_width="235px"
         flex="column"
         shadow="-5px 3px 10px 10px rgba(0, 0, 0, 0.2)"
       >
         <Input
-          placeholder="Напиши сюда какую-нибудь задачу"
+          placeholder="Напишите сюда какую-нибудь задачу"
           type="text"
           value={text}
           onChange={handleInput}
@@ -129,9 +164,11 @@ const UserInput = ({
 
       <Container
         background="#f0f0f1"
-        width="60%"
+        width="1000px"
+        sm_width="100%"
         flex="column"
         shadow="7px 10px 10px 10px rgba(0, 0, 0, 0.2)"
+        md_width="100%"
       >
         {tasks?.length > 0 && <SubTitle>Вот твой список дел 😉</SubTitle>}
         {tasks?.length <= 0 && <SubTitle>Пока список дел пуст 🙁</SubTitle>}
@@ -141,7 +178,9 @@ const UserInput = ({
             key={el + i}
             flex="row"
             background="#59abcb"
-            width="50%"
+            width="75%"
+            md_width="90%"
+            sm_width="80%"
             align="center"
             justify="space-between"
             margin="0 auto"
@@ -150,8 +189,10 @@ const UserInput = ({
             <Container
               flex="row"
               width="15%"
+              md_width="35%"
               align="center"
-              justify="space-between"
+              md_justify="flex-end"
+              justify="flex-end"
             >
               <CheckBox />
               <IoIosClose className="close-item" size={35} />

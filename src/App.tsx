@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   width: 95%;
   margin: 0 auto;
 `;
@@ -21,6 +21,9 @@ const SubTitle = styled.h3`
 const Text = styled.p`
   text-align: center;
   font-size: 1.2em;
+  @media (min-width: 320px) and (max-width:480px){
+    font-size: 1em;
+  }
 `;
 function App() {
   const storageTask = JSON.parse(localStorage.getItem("tasks") as any) || [];
