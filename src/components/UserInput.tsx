@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { IoIosClose } from "react-icons/io";
+import { useState } from "react";
 
 type Props = {
   text: string;
@@ -18,8 +19,9 @@ interface ContainerProps {
   margin?: string;
   shadow?: string;
   md_width?: string;
-  md_justify?:string;
-  sm_width?:string;
+  md_justify?: string;
+  sm_width?: string;
+  text_line?: string;
 }
 interface ButtonProps {
   width?: string;
@@ -35,14 +37,14 @@ const Wrapper = styled.div`
   gap: 1rem;
   color: #000;
 
-  @media (min-width:480px) and (max-width:992px) {
+  @media (min-width: 480px) and (max-width: 992px) {
     font-size: 0.8em;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     width: 80%;
   }
-  @media (min-width:320px) and (max-width:480px) {
+  @media (min-width: 320px) and (max-width: 480px) {
     font-size: 0.8em;
     justify-content: center;
     align-items: center;
@@ -56,6 +58,9 @@ const SubTitle = styled.h3`
 `;
 const Container = styled.div<ContainerProps>`
   margin: ${(props) => props.margin};
+  text-decoration: ${(props) => props.text_line};
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
   color: #fff;
   font-weight: 500;
   text-shadow: 1px 1px 2px #000;
@@ -72,14 +77,14 @@ const Container = styled.div<ContainerProps>`
   background: ${(props) => props.background};
   box-shadow: ${(props) => props.shadow};
 
-  @media (min-width:480px) and (max-width:992px) {
-      font-size: 1em;
-      width: ${(props)=>props.md_width};
-      justify-content: ${(props)=>props.md_justify};
+  @media (min-width: 480px) and (max-width: 992px) {
+    font-size: 1em;
+    width: ${(props) => props.md_width};
+    justify-content: ${(props) => props.md_justify};
   }
-  @media (min-width: 320px) and (max-width:480px){
+  @media (min-width: 320px) and (max-width: 480px) {
     font-size: 0.9em;
-    width:${(props)=>props.sm_width};
+    width: ${(props) => props.sm_width};
   }
 `;
 const Input = styled.input`
@@ -97,8 +102,8 @@ const Input = styled.input`
     outline: none;
     border: 2px solid #59abcb;
   }
-  @media (min-width:480px) and (max-width:992px) {
-    width:80%;
+  @media (min-width: 480px) and (max-width: 992px) {
+    width: 80%;
   }
 `;
 
@@ -122,9 +127,8 @@ const Button = styled.button<ButtonProps>`
 
 const TaskText = styled.p`
   line-height: 1;
-  text-decoration: underline;
 
-  @media (min-width: 320px) and (max-width:480px){
+  @media (min-width: 320px) and (max-width: 480px) {
     font-size: 1.2em;
   }
 `;
@@ -139,6 +143,12 @@ const UserInput = ({
   handleButton,
   handleClearTaskList,
 }: Props) => {
+  const [checked, setChecked] = useState(false);
+
+  const handleCheckBox = () => {
+    setChecked((prev) => !prev);
+    console.log(checked);
+  };
   return (
     <Wrapper>
       <Container
@@ -173,19 +183,20 @@ const UserInput = ({
         {tasks?.length > 0 && <SubTitle>Вот твой список дел 😉</SubTitle>}
         {tasks?.length <= 0 && <SubTitle>Пока список дел пуст 🙁</SubTitle>}
 
-        {tasks?.map((el, i) => (
+        {tasks?.map((el, id) => (
           <Container
-            key={el + i}
+            key={el + id}
             flex="row"
-            background="#59abcb"
+            background={checked ? "#9c9c9c" : "#59abcb"}
             width="75%"
             md_width="90%"
             sm_width="80%"
             align="center"
             justify="space-between"
             margin="0 auto"
+            text_line={checked ? "line-through" : "underline"}
           >
-            <TaskText key={el + i}>{`№${i + 1}. ${el}`}</TaskText>
+            <TaskText key={el + id}>{`№${id + 1}. ${el}`}</TaskText>
             <Container
               flex="row"
               width="15%"
@@ -194,7 +205,7 @@ const UserInput = ({
               md_justify="flex-end"
               justify="flex-end"
             >
-              <CheckBox />
+              <CheckBox onClick={handleCheckBox} />
               <IoIosClose className="close-item" size={35} />
             </Container>
           </Container>

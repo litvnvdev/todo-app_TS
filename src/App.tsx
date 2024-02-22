@@ -40,6 +40,7 @@ function App() {
 
   const handleButton = () => {
     setArrTask((arr: string[]) => [...arr, inputTask]);
+    setInputTask('')
   };
 
   const handleClearTaskList = () => {
