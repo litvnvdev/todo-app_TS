@@ -5,8 +5,8 @@ import { useState } from "react";
 type Props = {
   text: string;
   handleInput: any;
-  handleButton: any;
-  handleClearTaskList: any;
+  handleButton: () => void;
+  handleClearTaskList: () => void;
   tasks: string[];
 };
 
@@ -132,7 +132,7 @@ const TaskText = styled.p`
     font-size: 1.2em;
   }
 `;
-const CheckBox = styled.input.attrs({ type: "checkbox" })`
+const CheckBox = styled.input<ContainerProps>`
   margin-left: 1rem;
 `;
 
@@ -143,12 +143,19 @@ const UserInput = ({
   handleButton,
   handleClearTaskList,
 }: Props) => {
-  const [checked, setChecked] = useState(false);
-
-  const handleCheckBox = () => {
-    setChecked((prev) => !prev);
-    console.log(checked);
+  const [isChecked, setIsChecked] = useState(
+    new Array(tasks.length).fill(false)
+  );
+ 
+  const handleCheckBox = (position: number) => {
+      const updatedCheckedState = isChecked.map((item, index) =>
+      index === position ? !item : item
+    );
+    setIsChecked(updatedCheckedState);
+    console.log(isChecked[position]);
+    
   };
+
   return (
     <Wrapper>
       <Container
@@ -187,14 +194,16 @@ const UserInput = ({
           <Container
             key={el + id}
             flex="row"
-            background={checked ? "#9c9c9c" : "#59abcb"}
+            // background={isChecked ? "#656b72" : "#59abcb"}
+            background="#59abcb"
             width="75%"
             md_width="90%"
             sm_width="80%"
             align="center"
             justify="space-between"
             margin="0 auto"
-            text_line={checked ? "line-through" : "underline"}
+            // text_line={isChecked ? "line-through" : "underline"}
+            text_line="underline"
           >
             <TaskText key={el + id}>{`№${id + 1}. ${el}`}</TaskText>
             <Container
@@ -205,7 +214,11 @@ const UserInput = ({
               md_justify="flex-end"
               justify="flex-end"
             >
-              <CheckBox onClick={handleCheckBox} />
+              <CheckBox
+                type="checkbox"
+                onChange={() => handleCheckBox(id)}
+                checked={isChecked[id]}
+              />
               <IoIosClose className="close-item" size={35} />
             </Container>
           </Container>

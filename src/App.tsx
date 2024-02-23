@@ -48,7 +48,6 @@ function App() {
     setInputTask("");
   };
 
-
   let date = new Date().toLocaleDateString();
 
   return (
