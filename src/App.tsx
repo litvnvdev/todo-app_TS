@@ -1,22 +1,22 @@
 import styled from "styled-components";
 import { useToDoStore } from "./shared/model/stores/useToDoStore";
+import { AddTaskButton } from "./features/task-form/AddTaskButton";
 
 function App() {
-  const [tasks, createTask, updateTask, removeTask] = useToDoStore((state) => [
+  const [tasks, createTask] = useToDoStore((state) => [
     state.tasks,
     state.createTask,
-    state.updateTask,
-    state.removeTask,
   ]);
+  console.log(tasks);
 
-  const handleTasks = () => {
-    createTask("Привет!");
-    console.log(tasks);
-  };
   return (
     <Wrapper>
       <Title>To Do App</Title>
-      <Button onClick={handleTasks}>добавить</Button>
+      <AddTaskButton
+        onAdd={(title) => {
+          createTask(title);
+        }}
+      />
     </Wrapper>
   );
 }
@@ -38,10 +38,6 @@ const Title = styled.h1`
   font-size: 40px;
   margin-bottom: 0.3rem;
   text-align: center;
-`;
-const Button = styled.button`
-  padding: 5px 10px;
-  background: peachpuff;
 `;
 
 export default App;
