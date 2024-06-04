@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import { useCallback, useState } from "react";
 
 interface AddButtonProps {
@@ -23,7 +24,9 @@ export const AddTaskButton: React.FC<AddButtonProps> = ({ onAdd }) => {
           setInputValue(e.target.value);
         }}
       />
-      <Button onClick={handleAddTask}>+</Button>
+      <Button onClick={handleAddTask}>
+        <IoIosAddCircleOutline size={25} />
+      </Button>
     </AddTaskButtonContainer>
   );
 };
@@ -49,6 +52,9 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #fff;
   border: none;
   padding: 8px 10px;

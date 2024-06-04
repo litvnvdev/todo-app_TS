@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useToDoStore } from "./shared/model/stores/useToDoStore";
-import { AddTaskButton } from "./features/task-form/AddTaskButton";
+import { AddTaskButton } from "./features/task-form/ui/AddTaskButton";
+import { Task } from "./entities/task";
 
 function App() {
   const [tasks, createTask] = useToDoStore((state) => [
@@ -10,14 +11,17 @@ function App() {
   console.log(tasks);
 
   return (
-    <Wrapper>
-      <Title>To Do App</Title>
-      <AddTaskButton
-        onAdd={(title) => {
-          createTask(title);
-        }}
-      />
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Title>To Do App</Title>
+        <AddTaskButton
+          onAdd={(title) => {
+            createTask(title);
+          }}
+        />
+      </Wrapper>
+      <Task />
+    </>
   );
 }
 
