@@ -3,20 +3,27 @@ import { useToDoStore } from "../../../shared/model/stores/useToDoStore";
 import { EmptyTask } from "./EmptyTask";
 
 interface DisplayTaskProps {
+  mt: string;
   children: React.ReactNode;
 }
 
-export const DisplayTaskLayout: React.FC<DisplayTaskProps> = ({ children }) => {
+export const DisplayTaskLayout: React.FC<DisplayTaskProps> = ({
+  children,
+  mt,
+}) => {
   const { tasks } = useToDoStore();
-  return <TaskWrapper>{!tasks.length ? <EmptyTask /> : children}</TaskWrapper>;
+  return (
+    <TaskWrapper mt={mt}>
+      {!tasks.length ? <EmptyTask /> : children}
+    </TaskWrapper>
+  );
 };
 
-const TaskWrapper = styled.section`
-  margin-top: 12px;
+const TaskWrapper = styled.section<{ mt?: string }>`
+  margin-top: ${(props) => props.mt};
   padding: 12px 0;
   background: #fff;
   border-radius: 20px;
-  height: 40dvh;
   display: flex;
   flex-direction: column;
   align-items: center;

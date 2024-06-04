@@ -11,6 +11,7 @@ export const EmptyTask: React.FC = () => {
 const EmptyTaskWrapper = styled.section`
   height: 90%;
   display: flex;
+  height: 40dvh;
   align-items: center;
   justify-content: center;
 `;
