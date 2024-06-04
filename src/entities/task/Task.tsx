@@ -3,12 +3,21 @@ import { DisplayTaskLayout } from "./ui/DisplayTaskLayout";
 import { TaskCard } from "./ui/TaskCard";
 
 export const Task: React.FC = () => {
-  const { tasks } = useToDoStore();
+  const { tasks, removeTask, updateTask } = useToDoStore();
+
   return (
-    <DisplayTaskLayout>
-      {tasks.map(({ title }) => (
-        <TaskCard title={title} />
-      ))}
+    <DisplayTaskLayout mt="10px">
+      {tasks &&
+        tasks.map(({ title, id }) => (
+          <TaskCard
+            id={id}
+            key={id}
+            title={title}
+            onRemoved={() => removeTask(id)}
+            onDone={() => removeTask(id)}
+            onEdited={() => updateTask(title, id)}
+          />
+        ))}
     </DisplayTaskLayout>
   );
 };
