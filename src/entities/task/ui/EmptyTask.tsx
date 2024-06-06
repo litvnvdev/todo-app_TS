@@ -9,13 +9,13 @@ export const EmptyTask: React.FC = () => {
 };
 
 const EmptyTaskWrapper = styled.section`
-  height: 90%;
-  display: flex;
   height: 40dvh;
+  display: flex;
   align-items: center;
-  justify-content: center;
+  margin: 0 auto;
 `;
 const Text = styled.p`
+  text-align: center;
   font-weight: 500;
   font-size: 1.5rem;
 `;
