@@ -1,7 +1,9 @@
-import { IoIosRemoveCircleOutline } from "react-icons/io";
-import { MdDone } from "react-icons/md";
-import { RiEditLine } from "react-icons/ri";
+import { useState } from "react";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { FaCalendarCheck } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import styled from "styled-components";
+import { EditTask } from "./EditTask";
 
 interface TaskCardProps {
   id: string;
@@ -16,48 +18,59 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   title,
   onRemoved,
   onDone,
-  onEdited,
 }) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const removeTask = (id: string) => {
-    onRemoved(id);
+    if (confirm(`Are you sure to remove the "${title}" task?`)) {
+      onRemoved(id);
+    }
   };
-  const editTask = (id: string, title: string) => {
-    onEdited(id, title);
+  const handleEditMode = () => {
+    setIsEditMode((prev) => !prev);
   };
+
   const doneTask = (id: string) => {
     onDone(id);
   };
 
   return (
-    <TaskContainer>
-      <TaskText>{title}</TaskText>
-      <ButtonContainer>
-        <RemoveTaskButton onClick={() => removeTask(id)}>
-          <IoIosRemoveCircleOutline size={25} />
-        </RemoveTaskButton>
-        <EditTaskButton onClick={() => editTask(id, title)}>
-          <RiEditLine size={25} />
-        </EditTaskButton>
-        <DoneTaskButton onClick={() => doneTask(id)}>
-          <MdDone size={25} />
-        </DoneTaskButton>
-      </ButtonContainer>
-    </TaskContainer>
+    <>
+      {isEditMode ? (
+        <EditTask id={id} title={title} setEditMode={handleEditMode} />
+      ) : (
+        <TaskContainer>
+          <TaskText>{title}</TaskText>
+          <ButtonContainer>
+            <DoneTaskButton onClick={() => doneTask(id)}>
+              <FaCalendarCheck size={25} />
+            </DoneTaskButton>
+            <EditTaskButton onClick={handleEditMode}>
+              <FaEdit size={25} />
+            </EditTaskButton>
+            <RemoveTaskButton onClick={() => removeTask(id)}>
+              <FaRegTrashCan size={25} />
+            </RemoveTaskButton>
+          </ButtonContainer>
+        </TaskContainer>
+      )}
+    </>
   );
 };
 
-const TaskContainer = styled.section`
+export const TaskContainer = styled.section`
   border-radius: 5px;
   padding: 50px;
   margin-top: 5px;
-  width: 90%;
+  width: 100%;
   padding: 8px 12px;
   background: #dbe2ef;
   display: flex;
   justify-content: space-between;
+  word-wrap: break-word;
   gap: 8px;
 `;
-const TaskText = styled.p`
+export const TaskText = styled.p`
   font-size: 1.1rem;
   padding: 6px 4px;
 `;
@@ -73,11 +86,11 @@ const TaskButton = styled.button`
   justify-content: center;
 `;
 const RemoveTaskButton = styled(TaskButton)`
-  color: red;
+  color: #b30c0c;
 `;
 const EditTaskButton = styled(TaskButton)`
-  color: grey;
+  color: #a1a1a1;
 `;
-const DoneTaskButton = styled(TaskButton)`
+export const DoneTaskButton = styled(TaskButton)`
   color: green;
 `;

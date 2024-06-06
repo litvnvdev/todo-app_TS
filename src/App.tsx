@@ -13,25 +13,26 @@ function App() {
   return (
     <>
       <Wrapper>
-        <Title>To Do App</Title>
+        <Title>Simple To Do List</Title>
         <AddTaskButton
           onAdd={(title) => {
             createTask(title);
           }}
         />
+        <Task />
       </Wrapper>
-      <Task />
     </>
   );
 }
 
 const Wrapper = styled.article`
+  box-shadow: 1px 1px 39px -8px rgba(255, 255, 255, 0.75);
   display: flex;
   flex-direction: column;
-  min-width: 600px;
+  width: 50vw;
   background: white;
   border-radius: 20px;
-  padding: 20px 50px;
+  padding: 50px 50px;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
@@ -40,7 +41,7 @@ const Title = styled.h1`
   font-weight: 500;
   color: black;
   font-size: 40px;
-  margin-bottom: 0.3rem;
+  margin-bottom: 2rem;
   text-align: center;
 `;
 

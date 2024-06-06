@@ -22,10 +22,10 @@ export const DisplayTaskLayout: React.FC<DisplayTaskProps> = ({
 const TaskWrapper = styled.section<{ mt?: string }>`
   margin-top: ${(props) => props.mt};
   padding: 12px 0;
-  background: #fff;
+  min-height: 400px;
+  min-width: 100%;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  align-items: end;
 `;
