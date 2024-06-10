@@ -23,6 +23,12 @@ export const AddTaskButton: React.FC<AddButtonProps> = ({ onAdd }) => {
         onChange={(e) => {
           setInputValue(e.target.value);
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            onAdd(inputValue);
+            setInputValue("");
+          }
+        }}
       />
       <Button onClick={handleAddTask}>
         <IoIosAddCircleOutline size={25} />

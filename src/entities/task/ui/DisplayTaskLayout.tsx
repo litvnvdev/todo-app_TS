@@ -26,6 +26,7 @@ const TaskWrapper = styled.section<{ mt?: string }>`
   min-width: 100%;
   border-radius: 20px;
   display: flex;
+  gap: 12px;
   flex-direction: column;
   align-items: end;
 `;
