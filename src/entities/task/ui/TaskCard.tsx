@@ -37,7 +37,12 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   return (
     <>
       {isEditMode ? (
-        <EditTask id={id} title={title} setEditMode={handleEditMode} />
+        <EditTask
+          id={id}
+          title={title}
+          setEditMode={handleEditMode}
+          isEditMode={isEditMode}
+        />
       ) : (
         <TaskContainer>
           <TaskText>{title}</TaskText>

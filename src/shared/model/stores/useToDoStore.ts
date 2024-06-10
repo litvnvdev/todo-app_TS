@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { uid } from "uid";
 
 interface Task {
@@ -14,40 +15,40 @@ interface ToDoStore {
   removeTask: (id: string) => void;
 }
 
-export const useToDoStore = create<ToDoStore>((set, get) => ({
-  tasks: [
-    // {
-    //   id: uid(),
-    //   title: "Task №1",
-    //   createdAt: 23111,
-    // },
-  ],
-  createTask: (title: string) => {
-    const { tasks } = get();
-    const newTask = {
-      id: uid(),
-      title,
-      createdAt: Date.now(),
-    };
+export const useToDoStore = create<ToDoStore>()(
+  persist(
+    (set, get) => ({
+      tasks: [],
+      createTask: (title: string) => {
+        const { tasks } = get();
+        const newTask = {
+          id: uid(),
+          title,
+          createdAt: Date.now(),
+        };
 
-    set({
-      tasks: [newTask].concat(tasks),
-    });
-  },
-  updateTask: (id: string, title: string) => {
-    const { tasks } = get();
+        set({
+          tasks: [newTask].concat(tasks),
+        });
+      },
 
-    set({
-      tasks: tasks.map((task) => ({
-        ...task,
-        title: task.id === id ? title : task.title,
-      })),
-    });
-  },
-  removeTask: (id: string) => {
-    const { tasks } = get();
-    set({
-      tasks: tasks.filter((task) => task.id !== id),
-    });
-  },
-}));
+      updateTask: (id: string, title: string) => {
+        const { tasks } = get();
+
+        set({
+          tasks: tasks.map((task) => ({
+            ...task,
+            title: task.id === id ? title : task.title,
+          })),
+        });
+      },
+      removeTask: (id: string) => {
+        const { tasks } = get();
+        set({
+          tasks: tasks.filter((task) => task.id !== id),
+        });
+      },
+    }),
+    { name: "toDoStore" }
+  )
+);

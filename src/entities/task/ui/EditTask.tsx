@@ -1,26 +1,42 @@
 import styled from "styled-components";
 import { MdDone } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useToDoStore } from "../../../shared/model/stores/useToDoStore";
 
 interface EditTaskProps {
   title: string;
   id: string;
+  isEditMode: boolean;
   setEditMode: () => void;
 }
 
 export const EditTask: React.FC<EditTaskProps> = ({
   id,
   title,
+  isEditMode,
   setEditMode,
 }) => {
   const { updateTask } = useToDoStore();
   const [inputValue, setInputValue] = useState(title);
+  const editTaskFocus = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isEditMode) {
+      editTaskFocus?.current?.focus();
+    }
+  }, [isEditMode]);
   return (
     <EditTaskContainer>
       <EditInput
+        ref={editTaskFocus}
         value={inputValue}
         onChange={(evt) => setInputValue(evt.target.value)}
+        onKeyDown={(evt) => {
+          if (evt.key === "Enter") {
+            updateTask(id, inputValue);
+            setEditMode();
+          }
+        }}
       />
       <EditTaskButton
         onClick={() => {
