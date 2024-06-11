@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { useCallback, useState } from "react";
+import { Modal } from "../../../entities/modal";
+import { useModal } from "../../../shared/hooks/useModal";
 
 interface AddButtonProps {
   onAdd: (title: string) => void;
@@ -8,14 +10,20 @@ interface AddButtonProps {
 
 export const AddTaskButton: React.FC<AddButtonProps> = ({ onAdd }) => {
   const [inputValue, setInputValue] = useState("");
+  const { handleModal, isOpen } = useModal();
 
   const handleAddTask = useCallback(() => {
-    onAdd(inputValue);
-    setInputValue("");
+    if (inputValue.length > 0) {
+      onAdd(inputValue);
+      setInputValue("");
+    } else {
+      handleModal();
+    }
   }, [inputValue]);
 
   return (
     <AddTaskButtonContainer>
+      <Modal isOpen={isOpen} onClose={handleModal} />
       <Input
         value={inputValue}
         type="text"
@@ -24,7 +32,7 @@ export const AddTaskButton: React.FC<AddButtonProps> = ({ onAdd }) => {
           setInputValue(e.target.value);
         }}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
+          if (e.key === "Enter" && inputValue) {
             onAdd(inputValue);
             setInputValue("");
           }

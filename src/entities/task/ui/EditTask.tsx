@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { MdDone } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { useToDoStore } from "../../../shared/model/stores/useToDoStore";
+import { Modal } from "../../modal";
 
 interface EditTaskProps {
   title: string;
@@ -19,6 +20,7 @@ export const EditTask: React.FC<EditTaskProps> = ({
   const { updateTask } = useToDoStore();
   const [inputValue, setInputValue] = useState(title);
   const editTaskFocus = useRef<HTMLInputElement>(null);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     if (isEditMode) {
@@ -27,12 +29,16 @@ export const EditTask: React.FC<EditTaskProps> = ({
   }, [isEditMode]);
   return (
     <EditTaskContainer>
+      <Modal
+        isOpen={isOpenModal}
+        onClose={() => setIsOpenModal((prev) => !prev)}
+      />
       <EditInput
         ref={editTaskFocus}
         value={inputValue}
         onChange={(evt) => setInputValue(evt.target.value)}
         onKeyDown={(evt) => {
-          if (evt.key === "Enter") {
+          if (evt.key === "Enter" && inputValue.length > 0) {
             updateTask(id, inputValue);
             setEditMode();
           }
@@ -40,10 +46,11 @@ export const EditTask: React.FC<EditTaskProps> = ({
       />
       <EditTaskButton
         onClick={() => {
-          console.log(inputValue);
-
-          updateTask(id, inputValue);
-          setEditMode();
+          if (inputValue.length > 0) {
+            updateTask(id, inputValue);
+            setEditMode();
+          }
+          setIsOpenModal((prev) => !prev);
         }}
       >
         <MdDone size={25} />
